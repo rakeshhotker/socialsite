@@ -1,8 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { fetchPosts } from '../actions/posts';
 import PostsList from './PostsList';
+import Navbar from './Navbar';
+
+const Login = () => <div>Login</div>;
+const SignUp = () => <div>SignUp</div>;
+const Home = () => <div>Home</div>;
+
 class App extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts());
@@ -11,60 +18,26 @@ class App extends React.Component {
   render() {
     const { posts } = this.props;
     return (
-      <div>
-        <nav className="nav">
-          <div className="left-nav">
-            <img
-              src="https://ninjafiles.s3.amazonaws.com/0000000000003454.png"
-              alt="logo"
-            />
-          </div>
-          <div className="search-container">
-            <img
-              className="search-icon"
-              src="https://image.flaticon.com/icons/svg/483/483356.svg"
-              alt="search-icon"
-            />
-            <input placeholder="Search" />
-            <div className="search-results">
-              <ul>
-                <li className="search-results-row">
-                  <img
-                    src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
-                    alt="user-dp"
-                  />
-                  <span>John Doe</span>
-                </li>
-                <li className="search-results-row">
-                  <img
-                    src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
-                    alt="user-dp"
-                  />
-                  <span>John Doe</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="right-nav">
-            <div className="user">
-              <img
-                src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
-                alt="user-dp"
-                id="user-dp"
-              />
-              <span>John Doe</span>
-            </div>
-            <div className="nav=links">
-              <ul>
-                <li>Log in</li>
-                <li>Log out</li>
-                <li>Sign Up</li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-        <PostsList posts={posts} />
-      </div>
+      <Router>
+        <div>
+          <Navbar />
+          <PostsList posts={posts} />
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+            <li>
+              <Link to="/SignUp">SignUp</Link>
+            </li>
+          </ul>
+          <Route exact path="/" component={Home} />
+          <Route path="/login" component={Login} />
+          <Route path="/SignUp" component={SignUp} />
+        </div>
+      </Router>
     );
     return <div>APP</div>;
   }
