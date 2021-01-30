@@ -8,18 +8,30 @@ import {
 } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { fetchPosts } from '../actions/posts';
-import { Home, Navbar, Page404, Login, SignUp } from './';
+import { Home, Navbar, Page404, Login, SignUp, Settings, Users } from './';
 import jwtDecode from 'jwt-decode';
 import { authenticateUser } from '../actions/auth';
+import { getAuthTokenFromLocalStorage } from '../helpers/utils';
 
-const Settings = () => <div>Settings</div>;
+// const Settings = () => <div>Settings</div>;
 const PrivateRoute = (PrivateRouteProps) => {
   const { isLoggedin, path, component: Component } = PrivateRouteProps;
   return (
     <Route
       path={path}
       render={(props) => {
-        return isLoggedin ? <Component {...props} /> : <Redirect to="/login" />;
+        return isLoggedin ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: {
+                from: props.location,
+              },
+            }}
+          />
+        );
       }}
     />
   );
@@ -27,7 +39,7 @@ const PrivateRoute = (PrivateRouteProps) => {
 class App extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts());
-    const token = localStorage.getItem('token');
+    const token = getAuthTokenFromLocalStorage();
     if (token) {
       const user = jwtDecode(token);
       console.log('user', user);
@@ -57,6 +69,11 @@ class App extends React.Component {
             />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={SignUp} />
+            <PrivateRoute
+              path="/users"
+              component={Users}
+              isLoggedin={auth.isLoggedin}
+            />
             <PrivateRoute
               path="/settings"
               component={Settings}

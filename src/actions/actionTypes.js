@@ -15,3 +15,7 @@ export const SIGNUP_FAILED = 'SIGNUP_FAILED';
 
 //clearing auth State
 export const CLEAR_AUTH_STATE = 'CLEAR_AUTH_STATE';
+
+//edit user
+export const EDIT_USER_SUCCESSFUL = 'EDIT_USER_SUCCESSFUL';
+export const EDIT_USER_FAIL = 'EDIT_USER_FAIL';
