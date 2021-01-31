@@ -32,7 +32,7 @@ class UserProfile extends Component {
     return false;
   };
   handleAddFriendClick = async () => {
-    const userId = this.props.match.params.userid;
+    const userId = this.props.match.params.userId;
     const url = APIUrls.addFriend(userId);
     const options = {
       method: 'POST',
@@ -104,7 +104,9 @@ class UserProfile extends Component {
             </button>
           )}
           {success && (
-            <div className="alert success-dialog">{`You are friends with${user.name}`}</div>
+            <div className="alert success-dailog">
+              Friend Added Successfully
+            </div>
           )}
           {error && <div className="alert error-dailog">{error}</div>}
         </div>

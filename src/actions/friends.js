@@ -25,9 +25,9 @@ export function fetchFriendsSucces(friends) {
     friends,
   };
 }
-export function addFriend(friendship) {
+export function addFriend(friend) {
   return {
     type: ADD_FRIEND,
-    friendship,
+    friend,
   };
 }
