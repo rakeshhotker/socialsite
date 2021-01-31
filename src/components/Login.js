@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { clearAuthState, login } from '../actions/auth';
-import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { login, clearAuthState } from '../actions/auth';
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -12,30 +14,39 @@ class Login extends Component {
       password: '',
     };
   }
+
   componentWillUnmount() {
     this.props.dispatch(clearAuthState());
   }
+
   handleEmailChange = (e) => {
     this.setState({
       email: e.target.value,
     });
   };
+
   handlePasswordChange = (e) => {
     this.setState({
       password: e.target.value,
     });
   };
+
   handleFormSubmit = (e) => {
     e.preventDefault();
+    // console.log('this.emailInputRef', this.emailInputRef);
+    // console.log('this.passwordInputRef', this.passwordInputRef);
     console.log('this.state', this.state);
     const { email, password } = this.state;
+
     if (email && password) {
       this.props.dispatch(login(email, password));
     }
   };
+
   render() {
     const { error, inProgress, isLoggedin } = this.props.auth;
     const { from } = this.props.location.state || { from: { pathname: '/' } };
+
     if (isLoggedin) {
       return <Redirect to={from} />;
     }
@@ -48,7 +59,7 @@ class Login extends Component {
             type="email"
             placeholder="Email"
             required
-            //
+            // ref={this.emailInputRef}
             onChange={this.handleEmailChange}
             value={this.state.email}
           />
@@ -66,10 +77,12 @@ class Login extends Component {
         <div className="field">
           {inProgress ? (
             <button onClick={this.handleFormSubmit} disabled={inProgress}>
-              Logging In....
+              Logging in...
             </button>
           ) : (
-            <button onClick={this.handleFormSubmit}>Log In</button>
+            <button onClick={this.handleFormSubmit} disabled={inProgress}>
+              Log In
+            </button>
           )}
         </div>
       </form>

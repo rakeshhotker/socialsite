@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { clearAuthState, editUser } from '../actions/auth';
+import { editUser, clearAuthState } from '../actions/auth';
+
 class Settings extends Component {
   constructor(props) {
     super(props);
@@ -11,19 +12,23 @@ class Settings extends Component {
       editMode: false,
     };
   }
-  componentWillUnmount() {
-    this.props.dispatch(clearAuthState());
-  }
+
   handleChange = (fieldName, val) => {
     this.setState({
       [fieldName]: val,
     });
   };
+
   handleSave = () => {
-    const { name, password, confirmPassword } = this.state;
+    const { password, confirmPassword, name } = this.state;
     const { user } = this.props.auth;
+
     this.props.dispatch(editUser(name, password, confirmPassword, user._id));
   };
+
+  componentWillUnmount() {
+    this.props.dispatch(clearAuthState());
+  }
   render() {
     const { user, error } = this.props.auth;
     const { editMode } = this.state;
@@ -35,10 +40,11 @@ class Settings extends Component {
             alt="user-dp"
           />
         </div>
+
         {error && <div className="alert error-dailog">{error}</div>}
-        {error == false && (
+        {error === false && (
           <div className="alert success-dailog">
-            Profile Updated Successfully
+            Successfully updated profile!
           </div>
         )}
         <div className="field">
@@ -58,9 +64,11 @@ class Settings extends Component {
             <div className="field-value">{user.name}</div>
           )}
         </div>
+
         {editMode && (
           <div className="field">
-            <div className="field-label">New Password</div>
+            <div className="field-label">New password</div>
+
             <input
               type="password"
               onChange={(e) => this.handleChange('password', e.target.value)}
@@ -71,7 +79,8 @@ class Settings extends Component {
 
         {editMode && (
           <div className="field">
-            <div className="field-label">Confirm Password</div>
+            <div className="field-label">Confirm password</div>
+
             <input
               type="password"
               onChange={(e) =>
@@ -81,28 +90,25 @@ class Settings extends Component {
             />
           </div>
         )}
+
         <div className="btn-grp">
           {editMode ? (
             <button className="button save-btn" onClick={this.handleSave}>
-              Save{' '}
+              Save
             </button>
           ) : (
             <button
               className="button edit-btn"
-              onClick={(e) => {
-                this.handleChange('editMode', true);
-              }}
+              onClick={() => this.handleChange('editMode', true)}
             >
-              Edit Profile
+              Edit profile
             </button>
           )}
 
           {editMode && (
             <div
               className="go-back"
-              onClick={(e) => {
-                this.handleChange('editMode', false);
-              }}
+              onClick={() => this.handleChange('editMode', false)}
             >
               Go back
             </div>
@@ -112,6 +118,7 @@ class Settings extends Component {
     );
   }
 }
+
 function mapStateToProps({ auth }) {
   return {
     auth,

@@ -1,15 +1,15 @@
 import {
-  AUTHENTICATE_USER,
-  CLEAR_AUTH_STATE,
-  EDIT_USER_FAIL,
-  EDIT_USER_SUCCESSFUL,
-  LOGIN_FAILED,
   LOGIN_START,
   LOGIN_SUCCESS,
+  LOGIN_FAILED,
+  AUTHENTICATE_USER,
   LOG_OUT,
-  SIGNUP_FAILED,
   SIGNUP_START,
   SIGNUP_SUCCESS,
+  SIGNUP_FAILED,
+  CLEAR_AUTH_STATE,
+  EDIT_USER_SUCCESSFUL,
+  EDIT_USER_FAILED,
 } from '../actions/actionTypes';
 
 const initialAuthState = {
@@ -18,6 +18,7 @@ const initialAuthState = {
   isLoggedin: false,
   inProgress: false,
 };
+
 export default function auth(state = initialAuthState, action) {
   switch (action.type) {
     case CLEAR_AUTH_STATE:
@@ -65,7 +66,7 @@ export default function auth(state = initialAuthState, action) {
         user: action.user,
         error: false,
       };
-    case EDIT_USER_FAIL:
+    case EDIT_USER_FAILED:
       return {
         ...state,
         error: action.error,
