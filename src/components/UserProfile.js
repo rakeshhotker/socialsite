@@ -45,17 +45,18 @@ class UserProfile extends Component {
     const response = await fetch(url, options);
     const data = await response.json();
     if (data.success) {
-      this.setState = {
+      this.setState({
         success: true,
         successMessage: 'Added friend successfully!',
-      };
+      });
       this.props.dispatch(addFriend(data.data.friendship));
     } else {
-      this.setState = {
+      this.setState({
         success: null,
         error: data.message,
-      };
+      });
     }
+    console.log('this.setState', this.setState);
   };
   handleRemoveFriendClick = async () => {
     const { match } = this.props;
@@ -64,12 +65,13 @@ class UserProfile extends Component {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Bearer${getAuthTokenFromLocalStorage()}`,
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
       },
     };
     const response = await fetch(url, extra);
     const data = await response.json();
     console.log('await data', data);
+    console.log('handleer');
     if (data.success) {
       this.setState({
         success: true,
